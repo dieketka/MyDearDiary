@@ -5,6 +5,7 @@
         <item name="colorPrimary">#EC9D9D</item>
         <item name="android:statusBarColor" >#E88B8B</item>
 
+
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 

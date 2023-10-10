@@ -1,25 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F6D3D3"
-    tools:context=".MainActivity">
+    tools:context=".ui.MainActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/main_recycler_view"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_container"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/nav"
+        />
 
-    <ImageButton
-        android:id="@+id/add_button"
-        android:layout_width="157dp"
-        android:layout_height="138dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerInParent="true"
-        android:background="#00FFFFFF"
-        android:src="@drawable/add_button" />
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

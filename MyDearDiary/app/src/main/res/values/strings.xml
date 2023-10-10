@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Dear Diary</string>
+    <string name="write_your_post_here">Write your post here</string>
+    <string name="created">Created</string>
 </resources>
