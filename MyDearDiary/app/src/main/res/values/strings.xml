@@ -2,4 +2,10 @@
     <string name="app_name">My Dear Diary</string>
     <string name="write_your_post_here">Write your post here</string>
     <string name="created">Created</string>
+    <string name="add_button">Add button</string>
+    <string name="sort">Sort</string>
+    <string name="search">Search</string>
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_by_date_created">Sort by date created</string>
+    <string name="delete_post">Delete post</string>
 </resources>

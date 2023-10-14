@@ -1,6 +1,7 @@
 package com.project.mydeardiary.ui.posts
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import com.project.mydeardiary.data.PostDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -9,4 +10,6 @@ import javax.inject.Inject
 class PostsViewModel @Inject constructor(
     private val PostDao: PostDao
 ) : ViewModel() {
+    val posts =  PostDao.getPosts().asLiveData()
+
 }
