@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Mu kallis päevik</string>
-    <string name="write_your_post_here">Kirjuta oma post siia</string>
+    <string name="write_your_post_here">Kirjuta oma postitus siia</string>
     <string name="created">Loodud</string>
+    <string name="sort">Sorteeri</string>
+    <string name="search">Otsing</string>
 </resources>

@@ -3,4 +3,6 @@
     <string name="app_name">Мой дорогой дневник</string>
     <string name="write_your_post_here">Напишите свой пост сюда</string>
     <string name="created">Создано</string>
+    <string name="sort">Отсортировать</string>
+    <string name="search">Найти</string>
 </resources>
