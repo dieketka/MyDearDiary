@@ -9,5 +9,20 @@
         android:id="@+id/postsFragment"
         android:name="com.project.mydeardiary.ui.posts.PostsFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_postsFragment_to_addEditPostFragment"
+            app:destination="@id/addEditPostFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditPostFragment"
+        android:name="com.project.mydeardiary.ui.addEditPost.addEditPostFragment"
+        android:label="fragment_edit_post"
+        tools:layout="@layout/fragment_edit_post" >
+        <argument
+            android:name="post"
+            app:argType="com.project.mydeardiary.data.Post"
+            app:nullable="true"
+            android:defaultValue="@null" />
+    </fragment>
 </navigation>
