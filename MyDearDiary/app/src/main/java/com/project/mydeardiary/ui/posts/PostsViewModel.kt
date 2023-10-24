@@ -8,6 +8,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.project.mydeardiary.data.Post
 import com.project.mydeardiary.data.PostDao
+import com.project.mydeardiary.ui.AddPostResultOk
+import com.project.mydeardiary.ui.EditPostResultOk
 import dagger.assisted.Assisted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -55,11 +57,23 @@ class PostsViewModel @Inject constructor(
     fun onAddNewPostClick() = viewModelScope.launch {
     postsEventChannel.send(PostsEvent.NavigateToAddPostScreen)
     }
+    fun onAddEditResult(result: Int){
+        when (result) {
+            AddPostResultOk -> showPostSaveConformationMessage("Post added")
+            EditPostResultOk -> showPostSaveConformationMessage("Post updated")
+        }
+    }
+    fun showPostSaveConformationMessage(text: String) = viewModelScope.launch {
+        postsEventChannel.send(PostsEvent.ShowPostSavedConfirmationMessage(text))
+
+
+}
 
     sealed class PostsEvent {
         object NavigateToAddPostScreen : PostsEvent()
         data class NavigateToEditPostScreen(val post: Post) : PostsEvent()
         data class ShowUndoDeletePostMessage(val post: Post) : PostsEvent()
+        data class ShowPostSavedConfirmationMessage(val msg: String) : PostsEvent()
     }
     val posts = tasksFlow.asLiveData()
 

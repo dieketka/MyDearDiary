@@ -8,8 +8,10 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,10 +21,12 @@ import com.project.mydeardiary.databinding.FragmentMainBinding
 import com.project.mydeardiary.util.exhaustive
 import com.project.mydeardiary.util.onQueryTextChanged
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PostsFragment: Fragment(R.layout.fragment_main), MenuProvider {
     private val viewModel: PostsViewModel by viewModels()
+    private lateinit var searchView: SearchView
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -54,11 +58,17 @@ class PostsFragment: Fragment(R.layout.fragment_main), MenuProvider {
                  viewModel.onAddNewPostClick()
             }
         }
+
+        setFragmentResultListener("add_edit_request"){ _, bundle ->
+            val result = bundle.getInt("add_edit_result")
+            viewModel.onAddEditResult(result)
+
+        }
         viewModel.posts.observe(viewLifecycleOwner) {
             postsAdapter.submitList(it)
         }
 
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch{
             viewModel.postsEvent.collect{
                 event ->
                 when (event) {
@@ -67,15 +77,21 @@ class PostsFragment: Fragment(R.layout.fragment_main), MenuProvider {
                             .setAction("Undo") {
                                 viewModel.onUndoDeleteClick(event.post)
                             }.show()
-
                     }
 
                     is PostsViewModel.PostsEvent.NavigateToAddPostScreen -> {
-
+                      val action = PostsFragmentDirections.actionPostsFragmentToAddEditPostFragment("New post", null)
+                        findNavController().navigate(R.id.PostsFragment)
                     }
                     is PostsViewModel.PostsEvent.NavigateToEditPostScreen -> {
+                    val action = PostsFragmentDirections.actionPostsFragmentToAddEditPostFragment("Edit post", event.post)
+                        findNavController().navigate(R.id.PostsFragment)
 
 
+                    }
+
+                    is PostsViewModel.PostsEvent.ShowPostSavedConfirmationMessage -> {
+                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
                     }
                 }.exhaustive
             }
@@ -89,7 +105,12 @@ class PostsFragment: Fragment(R.layout.fragment_main), MenuProvider {
         inflater.inflate(R.menu.menu_fragment_main, menu)
 
         val searchButton = menu.findItem(R.id.search)
-        val searchView = searchButton.actionView as SearchView
+        searchView = searchButton.actionView as SearchView
+        val pendingQuery = viewModel.searchQuery.value
+        if (!pendingQuery.isNullOrEmpty()) {
+            searchButton.expandActionView()
+            searchView.setQuery(pendingQuery, false)
+        }
 
         searchView.onQueryTextChanged {
             viewModel.searchQuery.value = it
@@ -118,5 +139,9 @@ class PostsFragment: Fragment(R.layout.fragment_main), MenuProvider {
 
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        searchView.setOnQueryTextListener(null)
+    }
 }
 

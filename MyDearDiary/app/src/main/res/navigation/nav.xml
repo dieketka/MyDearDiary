@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav"
-    app:startDestination="@id/postsFragment">
+    app:startDestination="@id/PostsFragment">
 
     <fragment
-        android:id="@+id/postsFragment"
+        android:id="@+id/PostsFragment"
         android:name="com.project.mydeardiary.ui.posts.PostsFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        android:label="Your posts"
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_postsFragment_to_addEditPostFragment"
             app:destination="@id/addEditPostFragment" />
@@ -17,12 +17,15 @@
     <fragment
         android:id="@+id/addEditPostFragment"
         android:name="com.project.mydeardiary.ui.addEditPost.addEditPostFragment"
-        android:label="fragment_edit_post"
-        tools:layout="@layout/fragment_edit_post" >
+        android:label="{title}"
+        tools:layout="@layout/fragment_edit_post">
         <argument
             android:name="post"
+            android:defaultValue="@null"
             app:argType="com.project.mydeardiary.data.Post"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 </navigation>
