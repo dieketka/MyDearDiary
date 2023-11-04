@@ -5,4 +5,5 @@
     <string name="created">Loodud</string>
     <string name="sort">Sorteeri</string>
     <string name="search">Otsing</string>
+    <string name="add_new_post">Lisa uus postitus</string>
 </resources>

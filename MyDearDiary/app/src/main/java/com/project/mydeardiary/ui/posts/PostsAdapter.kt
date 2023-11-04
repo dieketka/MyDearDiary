@@ -9,7 +9,7 @@ import com.project.mydeardiary.data.Post
 import com.project.mydeardiary.databinding.PostsBinding
 
 
-class PostsAdapter : ListAdapter<Post, PostsAdapter.PostsViewHolder>(PostsViewHolder.DiffCallback()) {
+class PostsAdapter(private val listener: OnItemClickListener ) : ListAdapter<Post, PostsAdapter.PostsViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostsViewHolder {
         val binding = PostsBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -22,15 +22,33 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostsViewHolder>(PostsViewHo
     }
 
 
-    class PostsViewHolder(private val binding: PostsBinding ) : RecyclerView.ViewHolder(binding.root){
+    inner class PostsViewHolder(private val binding: PostsBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val post = getItem(position)
+                        listener.onItemClick(post)
+                    }
+                }
+            }
+        }
 
 
-        fun bind(post: Post){
-            binding.apply{
+        fun bind(post: Post) {
+            binding.apply {
                 tvPosts.text = post.name
             }
-
         }
+    }
+
+        interface OnItemClickListener {
+            fun onItemClick(post: Post)
+        }
+
+
         class DiffCallback : DiffUtil.ItemCallback<Post>(){
             override fun areItemsTheSame(oldItem: Post, newItem: Post) =
                 oldItem.id == newItem.id
@@ -40,4 +58,3 @@ class PostsAdapter : ListAdapter<Post, PostsAdapter.PostsViewHolder>(PostsViewHo
 
         }
     }
-}

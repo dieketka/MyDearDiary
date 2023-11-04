@@ -1,9 +1,11 @@
 package com.project.mydeardiary.ui.addEditPost
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
@@ -14,10 +16,12 @@ import com.project.mydeardiary.R
 import com.project.mydeardiary.databinding.FragmentEditPostBinding
 import com.project.mydeardiary.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class addEditPostFragment : Fragment(R.layout.fragment_edit_post) {
     private val viewModel: addEditPostViewModel by viewModels()
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -27,14 +31,19 @@ class addEditPostFragment : Fragment(R.layout.fragment_edit_post) {
             tvCreated.isVisible = viewModel.post != null
             tvCreated.text = "Created: ${viewModel.post?.createdDateFormatted}"
 
-            editButton.setOnClickListener{
+            etEditPost.addTextChangedListener{
+                viewModel.postName = it.toString()
+            }
+
+            editButton.setOnClickListener{ //from fragment_edit_post.xml button
                 viewModel.onSaveClick()
             }
         }
-        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+        viewLifecycleOwner.lifecycleScope.launch {
             viewModel.addEditPostEvent.collect{
                 event ->
                 when(event){
+
                     is addEditPostViewModel.AddEditPostEvent.NavigateBackWithResult ->{
 
                         binding.etEditPost.clearFocus() // hides keyboard
@@ -43,11 +52,13 @@ class addEditPostFragment : Fragment(R.layout.fragment_edit_post) {
                                     bundleOf("add_edit_result" to event.res)
                         )
                         findNavController().popBackStack()
-                }
+
+                        }
                     is addEditPostViewModel.AddEditPostEvent.ShowInvalidInputMessage -> {
 
-                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
+                       Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                     }
+
                 }.exhaustive
             }
         }

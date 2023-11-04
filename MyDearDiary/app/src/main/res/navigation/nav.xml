@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/PostsFragment"
         android:name="com.project.mydeardiary.ui.posts.PostsFragment"
-        android:label="Your posts"
+        android:label="My Dear Diary"
         tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_postsFragment_to_addEditPostFragment"

@@ -11,7 +11,7 @@ import java.text.DateFormat
 @VersionedParcelize
 data class Post(
     val name: String?,
-    val created: Long = System.currentTimeMillis(), //adding time when a post was created
+    val created: Long = System.currentTimeMillis(), //time when a post was created
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 )
     :Parcelable

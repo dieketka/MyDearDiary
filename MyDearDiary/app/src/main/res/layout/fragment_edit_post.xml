@@ -5,10 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ui.addEditPost.addEditPostFragment"
-    android:background="#F6D3D3">
+  >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
@@ -26,7 +26,7 @@
             />
     <TextView
         android:id="@+id/tv_created"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/created"
         android:padding="5dp"
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="20dp"
-        android:contentDescription="Add new post"
+        android:contentDescription="@string/add_new_post"
         android:src="@drawable/add_button"
         app:backgroundTint="#E88B8B" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

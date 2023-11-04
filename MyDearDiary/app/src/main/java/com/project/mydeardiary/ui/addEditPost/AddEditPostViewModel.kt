@@ -1,6 +1,5 @@
 package com.project.mydeardiary.ui.addEditPost
 
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,17 +7,18 @@ import com.project.mydeardiary.data.Post
 import com.project.mydeardiary.data.PostDao
 import com.project.mydeardiary.ui.AddPostResultOk
 import com.project.mydeardiary.ui.EditPostResultOk
-import dagger.assisted.Assisted
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class addEditPostViewModel @ViewModelInject constructor(
+@HiltViewModel
+class addEditPostViewModel @Inject constructor(
     private val postDao: PostDao,
-    @Assisted private val state: SavedStateHandle
+    private val state: SavedStateHandle
 ) : ViewModel() {
-    var post = state.get<Post>("post")
+    val post = state.get<Post>("post")
     var postName = state.get<String>("postName") ?: post?.name ?: ""
         set(value) {
             field = value
@@ -26,16 +26,18 @@ class addEditPostViewModel @ViewModelInject constructor(
         }
     private val addEditPostEventChannel = Channel<AddEditPostEvent>()
     val addEditPostEvent = addEditPostEventChannel.receiveAsFlow()
-    fun onSaveClick() {
-        if (postName.isBlank()) {
-            showInvalidInputMessage("Name cannot be empty")
-            return
 
-        }
-        if (post != null){
-            val updatePost = post!!.copy(name = postName)
+    fun onSaveClick() {
+
+       if (post != null){
+            val updatePost = post.copy(name = postName)
             updatePost(updatePost)
         }
+
+       if (postName.isBlank()) {
+            showInvalidInputMessage("Name cannot be empty")
+        }
+
         else {
             val newPost = Post(name = postName)
             createPost(newPost)
@@ -53,7 +55,7 @@ class addEditPostViewModel @ViewModelInject constructor(
     private fun showInvalidInputMessage(text: String) = viewModelScope.launch {
         addEditPostEventChannel.send(AddEditPostEvent.ShowInvalidInputMessage(text))
     }
-    sealed class AddEditPostEvent{
+   sealed class AddEditPostEvent{
         data class ShowInvalidInputMessage(val msg: String): AddEditPostEvent()
         data class NavigateBackWithResult(val res: Int): AddEditPostEvent()
     }

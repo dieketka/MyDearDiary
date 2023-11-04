@@ -12,7 +12,7 @@
         android:roundIcon="@drawable/icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDearDiary"
-        tools:targetApi="31">
+        tools:targetApi="34">
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
