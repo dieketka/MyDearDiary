@@ -8,7 +8,7 @@
   >
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
@@ -18,9 +18,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/write_your_post_here"
-            android:inputType="text"
+            android:inputType="textMultiLine"
             android:textColor="@color/black"
-            android:textSize="25sp"
+            android:autoSizeMaxTextSize="100sp"
+            android:autoSizeMinTextSize="10sp"
             android:textStyle="italic|bold"
 
             />

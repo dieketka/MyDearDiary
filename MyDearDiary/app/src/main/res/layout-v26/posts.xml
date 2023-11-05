@@ -22,10 +22,9 @@
         android:gravity="center_vertical"
         android:maxLines="10"
         android:text="nmfghk"
-        android:autoSizeMaxTextSize="100sp"
-        android:autoSizeMinTextSize="10sp"
+        android:autoSizeMaxTextSize="30sp"
         android:textColor="@color/black"
-
+        android:textSize="20sp"
         android:textStyle="italic|bold"
         android:layout_toEndOf="@id/rd"
         tools:layout_editor_absoluteX="10dp"
