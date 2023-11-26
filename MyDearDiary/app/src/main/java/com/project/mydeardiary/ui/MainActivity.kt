@@ -13,20 +13,20 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+// its a container for fragments and navigation
 
-    private lateinit var navController: NavController
+    private lateinit var navController: NavController //reference to NavController
     @SuppressLint("SuspiciousIndentation")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_container) as NavHostFragment
     navController = navHostFragment.findNavController()
 
         setupActionBarWithNavController(navController)
     }
-    override fun onSupportNavigateUp(): Boolean {
+    override fun onSupportNavigateUp(): Boolean { //when clicking Back
         return navController.navigateUp() || super.onSupportNavigateUp()
 }
 }

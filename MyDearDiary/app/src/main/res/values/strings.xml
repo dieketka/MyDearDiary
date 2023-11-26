@@ -5,8 +5,16 @@
     <string name="add_button" translatable="false">Add button</string>
     <string name="sort">Sort</string>
     <string name="search">Search</string>
-    <string name="sort_by_name" translatable="false">Sort by name</string>
-    <string name="sort_by_date_created" translatable="false">Sort by date created</string>
-    <string name="delete_post" translatable="false">Delete post</string>
+    <string name="sort_by_name">Sort by name</string>
+    <string name="sort_by_date_created">Sort by date created</string>
+    <string name="delete_post">Delete post</string>
     <string name="add_new_post">Add new post</string>
+    <string name="new_post">New post</string>
+    <string name="post_updated">Post updated</string>
+    <string name="post_added">Post added</string>
+    <string name="new_post1">New post</string>
+    <string name="edit_post">Edit post</string>
+    <string name="post_deleted">Post deleted</string>
+    <string name="undo">Undo</string>
+
 </resources>

@@ -5,5 +5,15 @@
     <string name="created">Loodud</string>
     <string name="sort">Sorteeri</string>
     <string name="search">Otsing</string>
+    <string name="sort_by_name">Nime järgi</string>
+    <string name="sort_by_date_created">Kuupäeva järgi</string>
+    <string name="delete_post">Kustuta postitus</string>
     <string name="add_new_post">Lisa uus postitus</string>
+    <string name="new_post">Uus postitus</string>
+    <string name="post_updated">Postitus uuendatud</string>
+    <string name="post_added">Postitus lisatud</string>
+    <string name="new_post1">Uus postitus</string>
+    <string name="edit_post">Redigeeri postitus</string>
+    <string name="post_deleted">Postitus kustutatud</string>
+    <string name="undo">Katkesta</string>
 </resources>

@@ -10,6 +10,7 @@ import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -26,29 +27,27 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-
+//Fragment class for fragment_main.xml file, that holds the binding information for the fragment
  class PostsFragment : Fragment(R.layout.fragment_main), PostsAdapter.OnItemClickListener, MenuProvider {
-    private val viewModel: PostsViewModel by viewModels()
+    private val viewModel: PostsViewModel by viewModels() //injecting ViewModel
     private lateinit var searchView: SearchView
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) { //method is called when the layout appearance is instanciated
         super.onViewCreated(view, savedInstanceState)
-
-
-
         val binding = FragmentMainBinding.bind(view)
         val postsAdapter = PostsAdapter(this)
         binding.apply {
             mainRecyclerView.apply {
                 adapter = postsAdapter
-                layoutManager = LinearLayoutManager(requireContext())
+                layoutManager = LinearLayoutManager(requireContext()) //is responsible how the Recycler View layouts items on the screen
                 setHasFixedSize(true) //RecyclerView does not change its dimensions on the screen
             }
 
 
 
-
-
+            //defines what happens when swiping posts right or left
             ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
                 override fun onMove(
                     recyclerView: RecyclerView,
@@ -59,8 +58,8 @@ import kotlinx.coroutines.launch
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val post = postsAdapter.currentList[viewHolder.adapterPosition]
-                    viewModel.onPostSwiped(post)
+                    val post = postsAdapter.currentList[viewHolder.adapterPosition] //reference to current post
+                    viewModel.onPostSwiped(post) //delegating to ViewModel
                 }
             }).attachToRecyclerView(mainRecyclerView)
 
@@ -75,26 +74,28 @@ import kotlinx.coroutines.launch
 
         }
         viewModel.post.observe(viewLifecycleOwner) {
-            postsAdapter.submitList(it)
+            postsAdapter.submitList(it)  //any updates
         }
 
         viewLifecycleOwner.lifecycleScope.launch{
-            viewModel.postsEvent.collect{
+            viewModel.postsEvent.collect{ //when this event started
                 event ->
                 when (event) {
-                    is PostsViewModel.PostsEvent.ShowUndoDeletePostMessage ->{
-                        Snackbar.make(requireView(), "Post deleted", Snackbar.LENGTH_LONG)
-                            .setAction("Undo") {
-                                viewModel.onUndoDeleteClick(event.post)
-                            }.show()
+                    is PostsViewModel.PostsEvent.ShowUndoDeletePostMessage ->{ //show this message
+                        Snackbar.make(requireView(), getString(R.string.post_deleted), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.undo)) { // when Undo is clicked
+                                viewModel.onUndoDeleteClick(event.post) //restore the event
+                            }.show() // displaying snackBar
                     }
 
                     is PostsViewModel.PostsEvent.NavigateToAddPostScreen -> {  //nav.xml
-                      val action = PostsFragmentDirections.actionPostsFragmentToAddEditPostFragment("New post", null)
+                      val action = PostsFragmentDirections.actionPostsFragmentToAddEditPostFragment(getString(
+                                                R.string.new_post1), null)
                         findNavController().navigate(action)
                     }
                     is PostsViewModel.PostsEvent.NavigateToEditPostScreen -> { //nav.xml
-                    val action = PostsFragmentDirections.actionPostsFragmentToAddEditPostFragment("Edit post", event.post)
+                    val action = PostsFragmentDirections.actionPostsFragmentToAddEditPostFragment(getString(
+                                            R.string.edit_post), event.post)
                         findNavController().navigate(action)
 
                     }
@@ -102,11 +103,12 @@ import kotlinx.coroutines.launch
                     is PostsViewModel.PostsEvent.ShowPostSavedConfirmationMessage -> {
                         Snackbar.make(requireView(), event.msg2, Snackbar.LENGTH_SHORT).show()
                     }
+
                 }.exhaustive
             }
         }
 
-        activity?.addMenuProvider(this)
+        activity?.addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
     }
 
     override fun onItemClick(post: Post) {
@@ -114,12 +116,13 @@ import kotlinx.coroutines.launch
     }
 
 
-    override fun onCreateMenu(menu: Menu,  inflater: MenuInflater) {
+    override fun onCreateMenu(menu: Menu,  inflater: MenuInflater) { //activating menu
         inflater.inflate(R.menu.menu_fragment_main, menu) // navigation from menu_fragment_main_xml
 
-        val searchButton = menu.findItem(R.id.search)
-        searchView = searchButton.actionView as SearchView
-        val pendingQuery = viewModel.searchQuery.value
+        val searchButton = menu.findItem(R.id.search) //refference to search button
+        searchView = searchButton.actionView as SearchView //refference to search view
+
+        val pendingQuery = viewModel.searchQuery.value //keeping searchview active when turning device or minimalizing it
         if (!pendingQuery.isNullOrEmpty()) {
             searchButton.expandActionView()
             searchView.setQuery(pendingQuery, false)
@@ -132,23 +135,26 @@ import kotlinx.coroutines.launch
 
     override fun onMenuItemSelected(item: MenuItem): Boolean { //from menu_fragment_main_xml
         return when (item.itemId) {
-            R.id.action_sort_by_name -> {
-                viewModel.onSortOrderSelected(SortOrder.BY_NAME)
+
+            //calling method from ViewModel
+            R.id.action_sort_by_name -> {  //when item is clicked
+                viewModel.onSortOrderSelected(SortOrder.BY_NAME) //this happens
 
                 true
             }
 
-            R.id.action_sort_by_date_created -> {  //from menu_fragment_main_xml
+            R.id.action_sort_by_date_created -> {
                 viewModel.onSortOrderSelected(SortOrder.BY_DATE)
 
                 true
             }
 
-            else -> super.onContextItemSelected(item)
+            else -> super.onContextItemSelected(item) //the Else case needs to be added, this should not be called
         }
 
 
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

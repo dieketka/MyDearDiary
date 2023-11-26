@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Мой дорогой дневник</string>
-    <string name="write_your_post_here">Напишите свой пост сюда</string>
+    <string name="write_your_post_here">Напиши свой пост сюда</string>
     <string name="created">Создано</string>
     <string name="sort">Отсортировать</string>
     <string name="search">Найти</string>
+    <string name="sort_by_name">По имени</string>
+    <string name="sort_by_date_created">По дате создания</string>
+    <string name="delete_post">Удалить пост</string>
     <string name="add_new_post">Добавить новый пост</string>
+    <string name="new_post">Новый пост</string>
+    <string name="post_updated">Пост обновлен</string>
+    <string name="post_added">Пост добавлен</string>
+    <string name="new_post1">Новый пост</string>
+    <string name="edit_post">Исправить пост</string>
+    <string name="post_deleted">Пост удален</string>
+    <string name="undo">Отменить</string>
 </resources>

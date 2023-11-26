@@ -13,21 +13,25 @@ import java.io.IOException
 import javax.inject.Inject
 import javax.inject.Singleton
 
-private const val TAG = "PreferencesManager"
+
+
+//To store SortOrder in JetPack DataStore
+
+private const val TAG = "PreferencesManager"  //log tag for the exception
 
 enum class SortOrder { BY_NAME, BY_DATE }
 
-data class FilterPreferences(val sortOrder: SortOrder)
+data class FilterPreferences (val sortOrder: SortOrder)
 
 @Singleton
 class DataStore @Inject constructor(@ApplicationContext context: Context) {
 
-     private val Context.dataStore by preferencesDataStore("user_preferences")
+     private val Context.dataStore by preferencesDataStore("user_preferences") //creating DataStore where to store these values
 
      private val dataStore = context.dataStore
 
     val preferencesFlow = dataStore.data
-        .catch { exception ->
+        .catch { exception -> //if the flow throws an exception(something went wrong when reading the data)
             if (exception is IOException) {
                 Log.e(TAG, "Error reading preferences", exception)
                 emit(emptyPreferences())
@@ -41,7 +45,7 @@ class DataStore @Inject constructor(@ApplicationContext context: Context) {
                 FilterPreferences(sortOrder)
         }
 
-    suspend fun updateSortOrder(sortOrder: SortOrder) {
+    suspend fun updateSortOrder(sortOrder: SortOrder)  {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.SORT_ORDER] = sortOrder.name
         }
@@ -50,5 +54,5 @@ class DataStore @Inject constructor(@ApplicationContext context: Context) {
     }
 
     private object PreferencesKeys {
-        val SORT_ORDER = stringPreferencesKey("sort_order")
+        val SORT_ORDER = stringPreferencesKey ("sort_order") //the name how SORT ORDER is  stored
     }

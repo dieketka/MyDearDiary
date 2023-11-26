@@ -20,28 +20,29 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
 class PostsViewModel @Inject constructor(
-    private val PostDao: PostDao,
+    private val PostDao: PostDao, //injecting Dao
     private val preferencesManager: DataStore,
     private val state: SavedStateHandle
 ) : ViewModel() {
 
-    val searchQuery = state.getLiveData("searchQuery", "")
+    val searchQuery = state.getLiveData("searchQuery", "") //holds the currently active search query
 
     val preferencesFlow = preferencesManager.preferencesFlow
 
     private val postsEventChannel = Channel<PostsEvent>()
     val postsEvent = postsEventChannel.receiveAsFlow()
 
-    private val postsFlow = combine(
+    private val postsFlow = combine( //combines multiple flows into a single flow
         searchQuery.asFlow(),
         preferencesFlow
 
     ) { query, filterPreferences  ->
-        Pair(query, filterPreferences)
+        Pair(query, filterPreferences) //returns a pair of flow
     }.flatMapLatest { (query, filterPreferences) ->
-        PostDao.getTasks(query, filterPreferences.sortOrder)
+        PostDao.getTasks(query, filterPreferences.sortOrder) //passes here
     }
     val post = postsFlow.asLiveData()
 
@@ -55,7 +56,7 @@ class PostsViewModel @Inject constructor(
 
 
     fun onPostSwiped(post: Post) = viewModelScope.launch {
-        PostDao.delete(post)
+        PostDao.delete(post) //function from DB
         postsEventChannel.send(PostsEvent.ShowUndoDeletePostMessage(post))
     }
 

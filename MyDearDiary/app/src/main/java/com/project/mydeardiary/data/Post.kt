@@ -9,9 +9,9 @@ import java.text.DateFormat
 
 @Entity(tableName = "post_table")
 @VersionedParcelize
-data class Post(
+data class Post( //holds the data, automatically implements methods.
     val name: String?,
-    val created: Long = System.currentTimeMillis(), //time when a post was created
+    val created: Long = System.currentTimeMillis(), //time when a post was created/method automatically check time in milliseconds
     @PrimaryKey(autoGenerate = true) val id: Int = 0
 )
     :Parcelable

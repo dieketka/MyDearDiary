@@ -10,24 +10,22 @@ import javax.inject.Provider
 
 annotation class ApplicationScope
 
-@Database(entities = [Post::class], version =1)
+@Database(entities = [Post::class], version = 1)
 abstract class PostDatabase : RoomDatabase() {
     abstract fun postDao(): PostDao
 
 
     class Callback @Inject constructor(
         private val database: Provider<PostDatabase>,
-        @ApplicationScope private val applicationScope: CoroutineScope
+         private val applicationScope: CoroutineScope
     ) : RoomDatabase.Callback() {
 
-        override fun onCreate(db: SupportSQLiteDatabase) {
+        override fun onCreate(db: SupportSQLiteDatabase) { //this method is excecuted the first time DB is opened
             super.onCreate(db)
-            val dao = database.get().postDao()
+            val dao = database.get().postDao() //passes posts inside the coroutine
             applicationScope.launch {
-                dao.insert(Post("This is my first post"))
-                dao.insert(Post("This is my second post"))
-                dao.insert(Post("Test test test test testtest  test  test test test test test test test test test test "))
-                dao.insert(Post("Test2"))
+                dao.insert(Post("This is your first post"))
+
 
 
 

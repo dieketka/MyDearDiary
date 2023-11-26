@@ -1,6 +1,7 @@
 package com.project.mydeardiary.util
 
 
-//returns a statement into an expression
+//utility function
+//returns "When" statement into expression in PostsFragment
 val <T> T.exhaustive: T
     get() = this

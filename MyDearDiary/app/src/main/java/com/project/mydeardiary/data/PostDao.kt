@@ -8,7 +8,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-
+//interface which manipulates with data from DB
 @Dao
 interface PostDao {
 
@@ -26,12 +26,12 @@ interface PostDao {
     @Query("SELECT * FROM post_table WHERE name LIKE '%' || :searchQuery || '%' ORDER BY created")
     fun getTasksSortedByDateCreated(searchQuery: String): Flow<List<Post>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(task: Post) //creating Insert function in app db
+    @Insert(onConflict = OnConflictStrategy.REPLACE) //defines what to do if the same task is inserted
+    suspend fun insert(task: Post) // Insert function in app db
 
     @Update
-    suspend fun update(task: Post) //creating Update function in app db
+    suspend fun update(task: Post) // Update function in app db
 
     @Delete
-    suspend fun delete(task: Post) //creating Delete function in app db
+    suspend fun delete(task: Post) // Delete function in app db
 }

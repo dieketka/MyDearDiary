@@ -18,14 +18,15 @@ import com.project.mydeardiary.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+//Fragment class for fragment_edit_post.xml file, that holds the binding information for the fragment
 @AndroidEntryPoint
 class addEditPostFragment : Fragment(R.layout.fragment_edit_post) {
-    private val viewModel: addEditPostViewModel by viewModels()
-    @SuppressLint("SetTextI18n")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+    private val viewModel: addEditPostViewModel by viewModels()  //injecting ViewModel
+    @SuppressLint("SetText", "SetTextI18n")
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {  //method is called when the layout appearance is instanciated
         super.onViewCreated(view, savedInstanceState)
 
-        val binding = FragmentEditPostBinding.bind(view)
+        val binding = FragmentEditPostBinding.bind(view) //binding the necessary values
         binding.apply {
             etEditPost.setText(viewModel.postName)
             tvCreated.isVisible = viewModel.post != null

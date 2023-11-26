@@ -29,17 +29,17 @@ class addEditPostViewModel @Inject constructor(
 
     fun onSaveClick() {
 
-       if (post != null){
-            val updatePost = post.copy(name = postName)
-            updatePost(updatePost)
+        if (postName.isBlank()) { //if the postName is blank
+            showInvalidInputMessage ("Name cannot be empty") //show a snackbar
+            return
         }
-
-       if (postName.isBlank()) {
-            showInvalidInputMessage("Name cannot be empty")
+       if (post != null){ //if the post is not equal to null
+            val updatePost = post.copy(name = postName) //update the post
+           updatePost(updatePost)
         }
 
         else {
-            val newPost = Post(name = postName)
+            val newPost = Post(name = postName) //create new post
             createPost(newPost)
         }
     }
