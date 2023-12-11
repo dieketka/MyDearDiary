@@ -16,5 +16,6 @@
     <string name="edit_post">Edit post</string>
     <string name="post_deleted">Post deleted</string>
     <string name="undo">Undo</string>
+    <string name="keep_your_memories" translatable="false">Keep your memories</string>
 
 </resources>

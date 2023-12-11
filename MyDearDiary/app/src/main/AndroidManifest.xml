@@ -5,21 +5,28 @@
 
 
     <application
-        android:name=".DiaryApp"
+        android:name=".adds.MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-
         android:supportsRtl="true"
         android:theme="@style/Theme.MyDearDiary"
+
         tools:targetApi="34">
 
+        <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-3940256099942544~3347511713"/>
+
+
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".adds.SplashActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:configChanges="uiMode"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,6 +35,14 @@
 
 
         </activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false"
+            android:configChanges="uiMode"
+            android:launchMode="singleTask"/>
+
+
     </application>
 
 </manifest>

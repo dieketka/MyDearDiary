@@ -45,6 +45,11 @@ class addEditPostFragment : Fragment(R.layout.fragment_edit_post) {
                 event ->
                 when(event){
 
+                    is addEditPostViewModel.AddEditPostEvent.ShowInvalidInputMessage -> {
+
+                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
+                    }
+
                     is addEditPostViewModel.AddEditPostEvent.NavigateBackWithResult ->{
 
                         binding.etEditPost.clearFocus() // hides keyboard
@@ -55,10 +60,7 @@ class addEditPostFragment : Fragment(R.layout.fragment_edit_post) {
                         findNavController().popBackStack()
 
                         }
-                    is addEditPostViewModel.AddEditPostEvent.ShowInvalidInputMessage -> {
 
-                       Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
-                    }
 
                 }.exhaustive
             }
